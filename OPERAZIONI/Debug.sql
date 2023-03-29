@@ -1,0 +1,8 @@
+SELECT DISTINCT T.Paziente,
+		LAST_VALUE(T.DataInizioTerapia) OVER w  AS UltimaTerapia
+FROM Terapia T
+WINDOW w AS (
+	PARTITION BY T.Paziente
+    ORDER BY T.DataInizioTerapia
+    ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+)
